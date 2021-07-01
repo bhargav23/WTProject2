@@ -1,15 +1,6 @@
 <?php
-    $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $dbname = "employee_db";
-
-    $conn = mysqli_connect($servername,$username,$password,$dbname);
-
-    if(!$conn)
-        die("Connection failed: " . mysqli_connect_error());
-    else   
-        echo "Successfully Connected<br>";
+    session_start();
+    include 'includes/connect.php';
     
     
     $qry = "CREATE TABLE `employee_tbl` (
@@ -21,12 +12,7 @@
       );";
     
     $res = mysqli_query($conn, $qry);
-    if(!$res)
-    {
-        echo "Table not created";
-    } else {
-        echo "Table created";
-    }
+    
 
 
     if($_SERVER['REQUEST_METHOD']=="POST") {
@@ -48,6 +34,20 @@
 ?>
 <html>
     <body>
+    <?php 
+    if(isset($_SESSION['email'])) {
+    echo "Welcome". " " . $_SESSION['email'];
+    }
+    ?>
+    <ul>
+        <li> <?php 
+        if(isset($_SESSION['email'])) {
+            
+        ?>
+        <a href ="logout.php">Logout </a><?php } else { ?>
+        <a href ="login.php">Login </a> <li><a href = "register.php">Register </a></li><?php } ?></li>
+        
+        </ul>
         <form method = "post" action = "">
             First Name: <input type="text" name="fname"><br>
             Last Name: <input type="text" name="lname"><br>
